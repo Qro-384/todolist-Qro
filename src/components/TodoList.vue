@@ -12,7 +12,6 @@ interface Todo {
 const todos = ref<Todo[]> ([
     { name: "vueを学ぶ", isFinished: 'not Finished' },
     { name: "1Q期末試験", isFinished: 'Finished' },
-    { name: "Dynamixのスタミナを消費する", isFinished: 'not Finished' },
 ])
 
 const newTodo = ref("")
@@ -26,7 +25,7 @@ const addTodo = () => {
     }
 }
 
-const turnTodo = (s:string) => {
+const turnTodo = (s:Done) => {
     if (s!== 'not Finished') {
         s = 'Finished'
     }
