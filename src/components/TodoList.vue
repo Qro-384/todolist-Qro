@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue"
 
-type Done = 'default' | 'Finished' | 'not Finished'
+type Done = 'Finished' | 'not Finished'
 
 interface Todo {
     name: string;
@@ -15,20 +15,17 @@ const todos = ref<Todo[]> ([
 ])
 
 const newTodo = ref("")
-const isFinishedTodo = ref<Done>('default')
+const isFinishedTodo = ref<Done>('not Finished')
 
 const addTodo = () => {
-    if (newTodo.value !== "" && isFinishedTodo.value!== 'default') {
+    if (newTodo.value !== "" ) {
         todos.value.push({ name: newTodo.value, isFinished: isFinishedTodo.value })
         newTodo.value = ""
-        isFinishedTodo.value = 'default'
     }
 }
 
-const turnTodo = (s:Done) => {
-    if (s!== 'not Finished') {
-        s = 'Finished'
-    }
+const turnTodo = (s:number) => {
+    todos.value[s].isFinished='Finished'
 }   
 
 </script>
@@ -37,12 +34,18 @@ const turnTodo = (s:Done) => {
     <div>
         <h2>Todo List</h2>
         <ul>
-            <li v-for="todo in todos" :key="todo.name" :class="{True: todo.isFinished=='Finished' ,False: todo.isFinished=='not Finished'}">
+            <li v-for="(todo,id) in todos" :key="todo.name" :class="{True: todo.isFinished=='Finished' ,False: todo.isFinished=='not Finished'}">
                 <div>・{{ todo.name }} /{{ todo.isFinished }}
-                <button v-if="todo.isFinished=='not Finished'" @click="turnTodo(todo.isFinished)">Done !!</button></div>
-                    
+                <button v-if="todo.isFinished=='not Finished'" @click="turnTodo(id)">Done</button></div>
             </li>
-        </ul>            
+        </ul> 
+        <div>
+        <label>
+            タスク:
+            <input v-model="newTodo" type="text" />
+        </label>
+        <button @click="addTodo">追加</button>
+    </div>           
     </div>
 </template>
 
